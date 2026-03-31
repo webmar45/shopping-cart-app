@@ -6,37 +6,35 @@ export default function ProductList() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-xl transition-all hover:scale-105">
-      <h2 className="text-2xl font-bold mb-4">🛒 Products</h2>
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold text-slate-900">Products</h2>
+        <p className="text-sm text-slate-500">Select items to add to your basket.</p>
+      </div>
 
       {products.map((p) => (
         <div
           key={p.id}
-          className="flex justify-between items-center mb-4 p-3 rounded-lg hover:bg-gray-50"
+          className="mb-3 flex items-center justify-between rounded-lg border border-slate-200 p-3 transition hover:border-slate-300"
         >
-          {/* LEFT */}
           <div>
-            <p className="font-semibold">{p.name}</p>
-            <p className="text-gray-500 text-sm">
-              £{p.price.toFixed(2)}
-            </p>
+            <p className="font-medium text-slate-900">{p.name}</p>
+            <p className="text-sm text-slate-500">₹ {p.price.toFixed(2)}</p>
 
-            {/* 🏷 OFFER BADGE */}
             {p.offer && (
-              <span className="inline-block mt-1 text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+              <span className="mt-1 inline-block rounded-md bg-emerald-50 px-2 py-1 text-xs text-emerald-700">
                 {p.offer}
               </span>
             )}
           </div>
 
-          {/* RIGHT */}
           <button
             onClick={() =>
               dispatch(addItem({ ...p, quantity: 1 }))
             }
-            className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-1 rounded-lg hover:opacity-90 transition hover:scale-105"
+            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
           >
-            Add
+            Add item
           </button>
         </div>
       ))}

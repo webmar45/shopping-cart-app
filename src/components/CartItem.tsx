@@ -6,56 +6,59 @@ import {
 } from "../features/cart/cartSlice";
 import type { CartItem as ItemType } from "../features/cart/cartTypes";
 
-export default function CartItem({ item }: { item: ItemType }) {
+export default function CartItem({
+  item,
+  saving,
+}: {
+  item: ItemType;
+  saving?: number;
+}) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex justify-between items-center border-b py-3">
-
-      {/* LEFT */}
+    <div className="flex items-center justify-between border-b border-slate-200 py-3">
       <div>
-        <p className="font-semibold">{item.name}</p>
-        <p className="text-gray-500 text-sm">
-          £{item.price.toFixed(2)}
-        </p>
+        <p className="font-medium text-slate-900">{item.name}</p>
+        <p className="text-sm text-slate-500">₹ {item.price.toFixed(2)}</p>
+        {saving ? (
+          <p className="text-xs text-emerald-700">You save ₹ {saving.toFixed(2)}</p>
+        ) : null}
       </div>
 
-      {/* CENTER */}
       <div className="flex items-center gap-3">
         <button
           onClick={() => dispatch(decreaseQty(item.id))}
-          className="bg-gray-200 px-3 rounded hover:bg-gray-300"
+          className="h-8 w-8 rounded border border-slate-300 text-slate-700 hover:bg-slate-100"
+          aria-label={`Decrease ${item.name}`}
         >
           -
         </button>
 
-        <span>{item.quantity}</span>
+        <span className="min-w-4 text-center text-sm font-medium text-slate-900">
+          {item.quantity}
+        </span>
 
         <button
           onClick={() => dispatch(increaseQty(item.id))}
-          className="bg-gray-200 px-3 rounded hover:bg-gray-300"
+          className="h-8 w-8 rounded border border-slate-300 text-slate-700 hover:bg-slate-100"
+          aria-label={`Increase ${item.name}`}
         >
           +
         </button>
       </div>
 
-      {/* RIGHT */}
       <div className="flex items-center gap-3">
-
-        <span className="font-semibold">
-          £{(item.price * item.quantity).toFixed(2)}
+        <span className="font-semibold text-slate-900">
+          GBP {(item.price * item.quantity).toFixed(2)}
         </span>
-
-        
         <button
-            onClick={() => dispatch(removeItem(item.id))}
-            className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition"
-            title="Remove"
-            >
-            ✕
+          onClick={() => dispatch(removeItem(item.id))}
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-100 text-rose-700 transition hover:bg-rose-200"
+          title="Remove"
+          aria-label={`Remove ${item.name}`}
+        >
+          x
         </button>
-
-        
       </div>
     </div>
   );
